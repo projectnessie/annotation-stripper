@@ -1,7 +1,7 @@
 [versions]
 asm = "9.4"
 checkstyle = "10.3.4"
-errorprone = "2.15.0"
+errorprone = "2.18.0"
 errorproneSlf4j = "0.1.18"
 googleJavaFormat = "1.15.0"
 immutables = "2.9.3"
