@@ -34,7 +34,7 @@ mapOf(
     "versionGoogleJavaFormat" to libs.versions.googleJavaFormat.get(),
     "versionJandex" to libs.versions.jandex.get()
   )
-  .forEach { (k, v) -> extra[k.toString()] = v }
+  .forEach { (k, v) -> extra[k] = v }
 
 tasks.named<Wrapper>("wrapper") { distributionType = Wrapper.DistributionType.ALL }
 
@@ -63,26 +63,28 @@ publishingHelper {
 }
 
 if (project.hasProperty("release")) {
-  apply<SigningPlugin>()
-  apply<MavenPublishPlugin>()
-  plugins.withType<SigningPlugin>().configureEach {
-    configure<SigningExtension> {
-      val signingKey: String? by project
-      val signingPassword: String? by project
-      useInMemoryPgpKeys(signingKey, signingPassword)
+  allprojects {
+    apply<SigningPlugin>()
+    apply<MavenPublishPlugin>()
+    plugins.withType<SigningPlugin>().configureEach {
+      configure<SigningExtension> {
+        val signingKey: String? by project
+        val signingPassword: String? by project
+        useInMemoryPgpKeys(signingKey, signingPassword)
+      }
     }
-  }
 
-  configure<PublishingExtension> {
-    publications {
-      withType(MavenPublication::class.java).configureEach {
-        val mavenPublication = this
+    configure<PublishingExtension> {
+      publications {
+        withType(MavenPublication::class.java).configureEach {
+          val mavenPublication = this
 
-        if (
-          mavenPublication.name != "pluginMaven" &&
+          if (
+            mavenPublication.name != "pluginMaven" &&
             !mavenPublication.name.endsWith("PluginMarkerMaven")
-        ) {
-          configure<SigningExtension> { sign(mavenPublication) }
+          ) {
+            configure<SigningExtension> { sign(mavenPublication) }
+          }
         }
       }
     }

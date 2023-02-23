@@ -16,7 +16,6 @@
 
 plugins {
   `java-library`
-  signing
   `maven-publish`
   id("com.diffplug.spotless")
   `annotation-stripper-conventions`
