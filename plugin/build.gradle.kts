@@ -16,6 +16,7 @@
 
 plugins {
   `kotlin-dsl`
+  `maven-publish`
   id("com.gradle.plugin-publish")
   id("com.diffplug.spotless")
   `annotation-stripper-conventions`
@@ -24,6 +25,8 @@ plugins {
 if (project.hasProperty("release")) {
   apply<SigningPlugin>()
 }
+
+description = "Strips annotations from class files"
 
 dependencies {
   implementation(project(":annotation-stripper-core"))
@@ -52,3 +55,23 @@ gradlePlugin {
 kotlin { jvmToolchain(11) }
 
 tasks.named("pluginUnderTestMetadata") { dependsOn(tasks.named("processJandexIndex")) }
+
+publishing {
+  publications {
+    withType(MavenPublication::class.java).configureEach {
+      pom {
+        name.set("Application Stripper Gradle Plugin")
+        description.set(project.description)
+
+        withXml {
+          val projectNode = asNode()
+
+          val parentNode = projectNode.appendNode("parent")
+          parentNode.appendNode("groupId", parent!!.group)
+          parentNode.appendNode("artifactId", parent!!.name)
+          parentNode.appendNode("version", parent!!.version)
+        }
+      }
+    }
+  }
+}

@@ -17,13 +17,14 @@
 import org.jetbrains.gradle.ext.*
 
 plugins {
-  signing
   `maven-publish`
   id("org.projectnessie.buildsupport.ide-integration")
+  id("org.projectnessie.buildsupport.publishing")
   alias(libs.plugins.nexus.publish)
   `annotation-stripper-conventions`
-  id("org.projectnessie.buildsupport.publishing")
 }
+
+description = "Strips annotations from class files"
 
 mapOf(
     // TODO update the Nessie Gradle plugins to not depend on these properties / move some of the
@@ -81,7 +82,7 @@ if (project.hasProperty("release")) {
 
           if (
             mavenPublication.name != "pluginMaven" &&
-            !mavenPublication.name.endsWith("PluginMarkerMaven")
+              !mavenPublication.name.endsWith("PluginMarkerMaven")
           ) {
             configure<SigningExtension> { sign(mavenPublication) }
           }
