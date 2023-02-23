@@ -1,0 +1,33 @@
+
+plugins {
+  id 'groovy'
+  id 'java-library'
+  id 'org.projectnessie.annotation-stripper'
+}
+
+version = '0.0-SNAPSHOT'
+
+repositories {
+  mavenCentral()
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+  implementation('org.codehaus.groovy:groovy-all:2.4.15')
+
+  compileOnly('javax.ws.rs:javax.ws.rs-api:2.1.1')
+  compileOnly('jakarta.ws.rs:jakarta.ws.rs-api:3.1.0')
+  compileOnly('javax.validation:validation-api:2.0.1.Final')
+  compileOnly('jakarta.validation:jakarta.validation-api:3.0.2')
+}
+
+annotationStripper {
+  registerDefault().configure {
+    annotationsToDrop(~'^jakarta[.].+')
+    unmodifiedClassesForJavaVersion.set(11)
+  }
+}

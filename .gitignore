@@ -1,0 +1,14 @@
+
+# Gradle
+build/
+.gradle/
+
+# Maven
+**/.mvn/wrapper/maven-wrapper.jar
+target/
+
+# IDE
+/.idea
+out/
+
+conformance/conformance-server.pid

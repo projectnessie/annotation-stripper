@@ -1,0 +1,48 @@
+[versions]
+asm = "9.4"
+checkstyle = "10.3.4"
+errorprone = "2.15.0"
+errorproneSlf4j = "0.1.18"
+googleJavaFormat = "1.15.0"
+immutables = "2.9.3"
+jandex = "2.4.3.Final"
+jandexPlugin = "1.86"
+junit = "5.9.2"
+nessieBuildPlugins = "0.2.19"
+shadowPlugin = "7.1.2"
+spotlessPlugin = "6.15.0"
+
+[bundles]
+junit-testing = ["assertj-core", "junit-jupiter-api", "junit-jupiter-params"]
+
+[libraries]
+asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
+asm-commons = { module = "org.ow2.asm:asm-commons", version.ref = "asm" }
+asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "asm" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.24.2" }
+errorprone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorprone" }
+errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
+errorprone-slf4j = { module = "jp.skypencil.errorprone.slf4j:errorprone-slf4j", version.ref = "errorproneSlf4j" }
+google-java-format = { module = "com.google.googlejavaformat:google-java-format", version.ref = "googleJavaFormat" }
+guava = { module = "com.google.guava:guava", version = "31.1-jre" }
+immutables-builder = { module = "org.immutables:builder", version.ref = "immutables" }
+immutables-value-annotations = { module = "org.immutables:value-annotations", version.ref = "immutables" }
+immutables-value-fixture = { module = "org.immutables:value-fixture", version.ref = "immutables" }
+immutables-value-processor = { module = "org.immutables:value-processor", version.ref = "immutables" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
+
+[plugins]
+errorprone = { id = "net.ltgt.errorprone", version = "3.0.1" }
+idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
+jandex = { id = "com.github.vlsi.jandex", version.ref = "jandexPlugin" }
+nessie-build-checkstyle = { id = "org.projectnessie.buildsupport.checkstyle", version.ref = "nessieBuildPlugins" }
+nessie-build-errorprone = { id = "org.projectnessie.buildsupport.errorprone", version.ref = "nessieBuildPlugins" }
+nessie-build-ide-integration = { id = "org.projectnessie.buildsupport.ide-integration", version.ref = "nessieBuildPlugins" }
+nessie-build-jandex = { id = "org.projectnessie.buildsupport.jandex", version.ref = "nessieBuildPlugins" }
+nessie-build-spotless = { id = "org.projectnessie.buildsupport.spotless", version.ref = "nessieBuildPlugins" }
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "1.2.0" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadowPlugin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotlessPlugin" }
