@@ -5,7 +5,7 @@
 [![Website](https://img.shields.io/badge/https-projectnessie.org-blue?color=3d4db3&logo=firefox&style=for-the-badge&logoColor=white)](https://projectnessie.org/)
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/projectnessie/annotation-stripper/main.yml?label=Main%20CI&logo=Github&style=for-the-badge)](https://github.com/projectnessie/annotation-stripper/actions/workflows/main.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/org.projectnessie/annotationstripper?label=Maven%20Central&logo=apachemaven&color=3f6ec6&style=for-the-badge&logoColor=white)](https://search.maven.org/artifact/org.projectnessie/annotationstripper)
+[![Maven Central](https://img.shields.io/maven-central/v/org.projectnessie.annotation-stripper/annotation-stripper?label=Maven%20Central&logo=apachemaven&color=3f6ec6&style=for-the-badge&logoColor=white)](https://search.maven.org/artifact/org.projectnessie/annotation-stripper)
 
 Core classes and Gradle plugin to strip requested annotations from compiled classes.
 
