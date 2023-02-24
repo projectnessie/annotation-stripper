@@ -16,7 +16,7 @@ Originally build to hide Jakarta EE annotations from Java 8 (see [Motivation / B
 ```kotlin
 plugins {
   `java-library`
-  id("org.projectnessie.annotation-stripper") version "0.1.0"
+  id("org.projectnessie.annotation-stripper") version "0.1.1"
 }
 
 dependencies {
@@ -43,7 +43,7 @@ annotationStripper {
 ```groovy
 plugins {
   id 'java-library'
-  id 'org.projectnessie.annotation-stripper' version '0.1.0'
+  id 'org.projectnessie.annotation-stripper' version '0.1.1'
 }
 
 dependencies {
