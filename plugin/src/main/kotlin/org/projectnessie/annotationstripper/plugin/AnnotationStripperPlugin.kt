@@ -53,6 +53,8 @@ open class AnnotationStripperPlugin : Plugin<Project> {
 
           from(stripTask.get().outputDirectory)
 
+          manifest { attributes["Multi-Release"] = true }
+
           // Some "exclude dance" here
           exclude { fte ->
             if (fte.isDirectory) {
