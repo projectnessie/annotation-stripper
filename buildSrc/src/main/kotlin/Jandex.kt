@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 The Authors of this project
+ * Copyright (C) 2023 The Authors of this project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-val hasSrcMain = projectDir.resolve("src/main").exists()
-val hasSrcTest = projectDir.resolve("src/test").exists()
+import com.github.vlsi.jandex.JandexExtension
+import com.github.vlsi.jandex.JandexPlugin
+import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.withType
 
-nessieIde()
+fun Project.nessieConfigureJandex() {
+  apply<JandexPlugin>()
+  configure<JandexExtension> { toolVersion.set(libsRequiredVersion("jandex")) }
 
-nessieConfigureSpotless()
-
-nessieConfigureJandex()
-
-nessieConfigureJava()
-
-if (hasSrcMain || hasSrcTest) {
-  nessieConfigureCheckstyle()
-
-  nessieConfigureErrorprone()
-
-  if (hasSrcTest) {
-    nessieConfigureTestTasks()
-  }
+  tasks.withType<Test>().configureEach { dependsOn(tasks.named("processTestJandexIndex")) }
 }

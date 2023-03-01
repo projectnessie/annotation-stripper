@@ -19,8 +19,9 @@ plugins {
   `maven-publish`
   id("com.diffplug.spotless")
   `annotation-stripper-conventions`
-  id("org.projectnessie.buildsupport.publishing")
 }
+
+apply<PublishingHelperPlugin>()
 
 dependencies {
   implementation(libs.asm)

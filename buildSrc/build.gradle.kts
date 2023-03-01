@@ -26,16 +26,12 @@ repositories {
 
 dependencies {
   implementation(gradleKotlinDsl())
-  val ver = libs.versions
-  implementation("com.diffplug.spotless:spotless-plugin-gradle:${ver.spotlessPlugin.get()}")
-  val nessieVer = ver.nessieBuildPlugins.get()
-  implementation("org.projectnessie.buildsupport:checkstyle:$nessieVer")
-  implementation("org.projectnessie.buildsupport:errorprone:$nessieVer")
-  implementation("org.projectnessie.buildsupport:ide-integration:$nessieVer")
-  implementation("org.projectnessie.buildsupport:jacoco:$nessieVer")
-  implementation("org.projectnessie.buildsupport:jandex:$nessieVer")
-  implementation("org.projectnessie.buildsupport:publishing:$nessieVer")
-  implementation("org.projectnessie.buildsupport:spotless:$nessieVer")
+  implementation(libs.idea.ext)
+  implementation(libs.spotless.plugin)
+  implementation(libs.jandex.plugin)
+  implementation(libs.shadow.plugin)
+  implementation(libs.errorprone.plugin)
+  implementation(libs.nessie.buildsupport.jacoco)
 }
 
 java {

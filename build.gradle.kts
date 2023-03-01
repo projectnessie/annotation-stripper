@@ -18,24 +18,14 @@ import org.jetbrains.gradle.ext.*
 
 plugins {
   `maven-publish`
-  id("org.projectnessie.buildsupport.ide-integration")
-  id("org.projectnessie.buildsupport.publishing")
+  eclipse
   alias(libs.plugins.nexus.publish)
   `annotation-stripper-conventions`
 }
 
-description = "Strips annotations from class files"
+apply<PublishingHelperPlugin>()
 
-mapOf(
-    // TODO update the Nessie Gradle plugins to not depend on these properties / move some of the
-    //  plugins into the Nessie repository.
-    "versionCheckstyle" to libs.versions.checkstyle.get(),
-    "versionErrorProneCore" to libs.versions.errorprone.get(),
-    "versionErrorProneSlf4j" to libs.versions.errorproneSlf4j.get(),
-    "versionGoogleJavaFormat" to libs.versions.googleJavaFormat.get(),
-    "versionJandex" to libs.versions.jandex.get()
-  )
-  .forEach { (k, v) -> extra[k] = v }
+description = "Strips annotations from class files"
 
 tasks.named<Wrapper>("wrapper") { distributionType = Wrapper.DistributionType.ALL }
 
@@ -58,7 +48,7 @@ nexusPublishing {
   repositories { sonatype() }
 }
 
-publishingHelper {
+configure<PublishingHelperExtension> {
   nessieRepoName.set("annotation-stripper")
   inceptionYear.set("2023")
 }
