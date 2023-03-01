@@ -14,23 +14,9 @@
  * limitations under the License.
  */
 
-val hasSrcMain = projectDir.resolve("src/main").exists()
-val hasSrcTest = projectDir.resolve("src/test").exists()
+import org.gradle.api.Project
 
-nessieIde()
-
-nessieConfigureSpotless()
-
-nessieConfigureJandex()
-
-nessieConfigureJava()
-
-if (hasSrcMain || hasSrcTest) {
-  nessieConfigureCheckstyle()
-
-  nessieConfigureErrorprone()
-
-  if (hasSrcTest) {
-    nessieConfigureTestTasks()
-  }
+open class PublishingHelperExtension(project: Project) {
+  val nessieRepoName = project.objects.property(String::class.java)
+  val inceptionYear = project.objects.property(String::class.java)
 }
