@@ -55,7 +55,7 @@ val compileTestCaseJakarta by
   }
 
 dependencies {
-  add("testCaseJakartaImplementation", "org.projectnessie:nessie-model:0.52.1")
+  add("testCaseJakartaImplementation", "org.projectnessie:nessie-model:0.52.3")
 
   add("testCaseJakartaCompileOnly", "javax.ws.rs:javax.ws.rs-api:2.1.1")
   add("testCaseJakartaCompileOnly", "jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")
