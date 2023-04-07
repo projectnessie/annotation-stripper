@@ -29,59 +29,56 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.projectnessie.annotationstripper.core.StripAnnotations
 
 abstract class AnnotationStripperTask
 @Inject
 constructor(
-  private val stripSet: AnnotationStripSet,
-  private val fileSystemOperations: FileSystemOperations
+  private val stripSetName: String,
+  private val fileSystemOperations: FileSystemOperations,
+  @OutputDirectory val outputDirectory: DirectoryProperty,
+  @Input val annotationsToDrop: ListProperty<Pattern>,
+  @Optional @Input val unmodifiedClassesForJavaVersion: Property<Int>
 ) : DefaultTask() {
 
-  @Input internal fun getAnnotationsToDrop(): ListProperty<Pattern> = stripSet.annotationsToDrop
+  @get:InputFiles
+  @get:PathSensitive(PathSensitivity.RELATIVE)
+  abstract val sourceSetCompileClasspath: Property<FileCollection>
 
-  @Optional
-  @Input
-  internal fun getUnmodifiedClassesForJavaVersion(): Property<Int> =
-    stripSet.unmodifiedClassesForJavaVersion
-
-  @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
-
-  @InputFiles
-  internal fun getInputClassFiles(): FileCollection {
-    val sourceSet = stripSet.sourceSet(project)
-    return sourceSet.output.classesDirs
-  }
+  @get:InputFiles
+  @get:PathSensitive(PathSensitivity.RELATIVE)
+  abstract val sourceSetClassesDirs: Property<FileCollection>
 
   @TaskAction
   fun stripClasses() {
-    val sourceSet = stripSet.sourceSet(project)
-
     fileSystemOperations.delete { delete(outputDirectory) }
 
-    val classesDirs = sourceSet.output.classesDirs.files
+    val classesDirs = sourceSetClassesDirs.get()
+    val compileClasspath = sourceSetCompileClasspath.get()
 
     // Need a ClassLoader constructed from the compilation classpath plus the class output
     // directories of the source set. This class loader is used by asm's ClassWriter.
     val classPathUrls =
-      (sourceSet.compileClasspath.elements.get().map { f -> f.asFile } + classesDirs)
+      (compileClasspath.elements.get().map { f -> f.asFile } + classesDirs)
         .map { f -> f.toURI().toURL() }
         .toTypedArray()
     val dependenciesClassLoader = URLClassLoader(classPathUrls)
 
     classesDirs.forEach {
       val target = outputDirectory.get().asFile
-      logger.info("Stripping annotations for source set '${stripSet.name}' from $it into $target")
+      logger.info("Stripping annotations for source set '${stripSetName}' from $it into $target")
       val builder =
         StripAnnotations.builder()
           .dependenciesClassLoader(dependenciesClassLoader)
-          .annotationsToDrop(stripSet.annotationsToDrop.get())
+          .annotationsToDrop(annotationsToDrop.get())
           .targetDir(target.toPath())
           .classesSourceDir(it.toPath())
 
-      if (stripSet.unmodifiedClassesForJavaVersion.isPresent)
-        builder.unmodifiedClassesForJavaVersion(stripSet.unmodifiedClassesForJavaVersion.get())
+      if (unmodifiedClassesForJavaVersion.isPresent)
+        builder.unmodifiedClassesForJavaVersion(unmodifiedClassesForJavaVersion.get())
 
       builder.build().stripAnnotations()
     }

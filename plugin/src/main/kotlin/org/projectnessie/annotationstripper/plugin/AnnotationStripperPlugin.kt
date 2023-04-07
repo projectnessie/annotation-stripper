@@ -38,20 +38,31 @@ open class AnnotationStripperPlugin : Plugin<Project> {
         val stripSet = this
         val stripTaskName = "strip${if (name == "main") "" else name.capitalized()}Annotations"
 
-        val stripTask = tasks.register(stripTaskName, AnnotationStripperTask::class.java, stripSet)
+        val output = project.objects.directoryProperty()
+        output.set(buildDir.resolve("classes/annotationStripped").resolve(sourceSet.name))
+
+        val stripTask =
+          tasks.register(
+            stripTaskName,
+            AnnotationStripperTask::class.java,
+            stripSet.name,
+            output,
+            stripSet.annotationsToDrop,
+            stripSet.unmodifiedClassesForJavaVersion
+          )
         stripTask.configure {
           description =
             "Strip annotations from the compiled class files of the '${sourceSet.name}' source set."
           dependsOn(classes)
-          outputDirectory.set(
-            buildDir.resolve("classes/annotationStripped").resolve(sourceSet.name)
-          )
+          sourceSetClassesDirs.convention(sourceSet.output.classesDirs)
+          sourceSetCompileClasspath.convention(sourceSet.compileClasspath)
+          unmodifiedClassesForJavaVersion.convention(stripSet.unmodifiedClassesForJavaVersion)
         }
 
         jar.configure {
           dependsOn(stripTask)
 
-          from(stripTask.get().outputDirectory)
+          from(output)
 
           manifest { attributes["Multi-Release"] = true }
 
@@ -61,7 +72,7 @@ open class AnnotationStripperPlugin : Plugin<Project> {
               false
             } else {
               // TODO memoize stripTask.get().outputDirectory.get().asFile
-              val stripped = stripTask.get().outputDirectory.get().asFile
+              val stripped = output.get().asFile
               if (fte.file.startsWith(stripped)) {
                 false
               } else {

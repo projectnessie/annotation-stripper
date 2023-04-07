@@ -43,7 +43,11 @@ class TestAnnotationStripper {
   fun checkPlugin() {
     copyProject(TestAnnotationStripper::class.java.classLoader.getResource("test-cases/jakarta")!!)
 
-    createRunner("jar").build()
+    try {
+      createRunner("jar").build()
+    } catch (e: Exception) {
+      throw e
+    }
 
     val buildDir = projectDir!!.resolve("build")
     val strippedClasses = buildDir.resolve("classes/annotationStripped/main")
@@ -78,7 +82,7 @@ class TestAnnotationStripper {
     GradleRunner.create()
       .withPluginClasspath()
       .withProjectDir(projectDir!!.toFile())
-      .withArguments("--build-cache", "--info", "--stacktrace", task)
+      .withArguments("--configuration-cache", "--build-cache", "--info", "--stacktrace", task)
       .withDebug(true)
       .forwardOutput()
 
