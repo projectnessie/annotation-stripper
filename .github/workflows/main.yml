@@ -19,10 +19,18 @@ on:
     branches: [ main ]
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.head_commit.id }}-${{ github.event.pull_request.head.ref }}
+  cancel-in-progress: true
+
 jobs:
   java:
-    name: Java/Gradle
+    name: CI Java/Gradle
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 3
+      matrix:
+        java-version: ['11', '17', '19']
     steps:
       - uses: actions/checkout@v3
         with:
@@ -32,10 +40,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: ${{ matrix.java-version }}
 
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
+        env:
+          GRADLE_BUILD_ACTION_CACHE_KEY_ENVIRONMENT: java-${{ matrix.java-version }}
         with:
           arguments: build publishToMavenLocal --scan
 
@@ -47,3 +57,15 @@ jobs:
           path: |
             **/build/reports/*
             **/build/test-results/*
+
+  finish:
+    # 'Ci Success' is the (only) required check for PRs, so we can change the jobs above without
+    # having to update the GH configuration every time.
+    name: CI Success
+    runs-on: ubuntu-22.04
+    needs:
+      - java
+    steps:
+      # Intentionally empty job (for all GH WF) events so that the "required checks" setting
+      # only needs to contain this job as the only required check for PRs.
+      - run: echo "Success"
