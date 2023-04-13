@@ -30,7 +30,7 @@ jobs:
     strategy:
       max-parallel: 3
       matrix:
-        java-version: ['11', '17', '19']
+        java-version: ['11', '17', '20']
     steps:
       - uses: actions/checkout@v3
         with:
@@ -58,14 +58,3 @@ jobs:
             **/build/reports/*
             **/build/test-results/*
 
-  finish:
-    # 'Ci Success' is the (only) required check for PRs, so we can change the jobs above without
-    # having to update the GH configuration every time.
-    name: CI Success
-    runs-on: ubuntu-22.04
-    needs:
-      - java
-    steps:
-      # Intentionally empty job (for all GH WF) events so that the "required checks" setting
-      # only needs to contain this job as the only required check for PRs.
-      - run: echo "Success"
