@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.Path;
 import org.projectnessie.model.Content;
 import org.projectnessie.model.ContentResponse;
+import org.projectnessie.model.Documentation;
 import org.projectnessie.model.Reference;
 
 @Path("/path")
@@ -27,6 +28,11 @@ import org.projectnessie.model.Reference;
 // Just implement an interface to get a dependency to another library to verify that the
 // dependenciesClassLoader setting works.
 public class PathAnnotationOnClass implements ContentResponse {
+
+  @Override
+  public @NotNull @jakarta.validation.constraints.NotNull Documentation getDocumentation() {
+    return null;
+  }
 
   @Override
   public @NotNull @jakarta.validation.constraints.NotNull Content getContent() {
