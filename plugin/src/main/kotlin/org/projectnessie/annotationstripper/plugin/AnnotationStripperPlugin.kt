@@ -39,7 +39,9 @@ open class AnnotationStripperPlugin : Plugin<Project> {
         val stripTaskName = "strip${if (name == "main") "" else name.capitalized()}Annotations"
 
         val output = project.objects.directoryProperty()
-        output.set(buildDir.resolve("classes/annotationStripped").resolve(sourceSet.name))
+        output.set(
+          layout.buildDirectory.map { it.dir("classes/annotationStripped/${sourceSet.name}") }
+        )
 
         val stripTask =
           tasks.register(

@@ -43,7 +43,9 @@ val testCaseJakarta by
   sourceSets.registering {
     java {
       srcDir("testCase/jakarta/src/java")
-      destinationDirectory.set(project.buildDir.resolve("testCases/jakarta/classes"))
+      destinationDirectory.set(
+        project.layout.buildDirectory.map { it.dir("testCases/jakarta/classes") }
+      )
     }
   }
 
