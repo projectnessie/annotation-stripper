@@ -11,7 +11,7 @@ jandexPlugin = "1.90"
 junit = "5.10.1"
 nessieBuildPlugins = "0.2.24"
 shadowPlugin = "8.1.1"
-spotlessPlugin = "6.23.3"
+spotlessPlugin = "6.24.0"
 
 [bundles]
 junit-testing = ["assertj-core", "junit-jupiter-api", "junit-jupiter-params"]
