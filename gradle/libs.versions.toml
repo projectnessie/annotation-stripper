@@ -20,7 +20,7 @@ junit-testing = ["assertj-core", "junit-jupiter-api", "junit-jupiter-params"]
 asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
 asm-commons = { module = "org.ow2.asm:asm-commons", version.ref = "asm" }
 asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "asm" }
-assertj-core = { module = "org.assertj:assertj-core", version = "3.25.1" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.25.2" }
 errorprone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorprone" }
 errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
 errorprone-plugin = { module = "net.ltgt.gradle:gradle-errorprone-plugin", version.ref = "errorpronePlugin" }
