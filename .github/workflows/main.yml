@@ -42,12 +42,15 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java-version }}
 
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
         env:
           GRADLE_BUILD_ACTION_CACHE_KEY_ENVIRONMENT: java-${{ matrix.java-version }}
         with:
-          arguments: build publishToMavenLocal --scan
+          cache-read-only: ${{ github.event_name != 'push' || github.ref != 'refs/heads/main' }}
+
+      - name: Build with Gradle
+        run: ./gradlew build publishToMavenLocal --scan
 
       - name: Capture test results
         uses: actions/upload-artifact@v4
