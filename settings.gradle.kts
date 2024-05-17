@@ -33,7 +33,7 @@ pluginManagement {
   }
 }
 
-plugins { id("com.gradle.enterprise") version ("3.17.3") }
+plugins { id("com.gradle.enterprise") version ("3.17.4") }
 
 gradleEnterprise {
   if (System.getenv("CI") != null) {
