@@ -42,7 +42,7 @@ shadow-plugin = { module = "com.github.johnrengelman:shadow", version.ref = "sha
 spotless-plugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotlessPlugin" }
 
 [plugins]
-errorprone = { id = "net.ltgt.errorprone", version = "4.0.0" }
+errorprone = { id = "net.ltgt.errorprone", version = "4.0.1" }
 jandex = { id = "com.github.vlsi.jandex", version.ref = "jandexPlugin" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version = "2.0.0" }
 shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadowPlugin" }
