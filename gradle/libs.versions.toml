@@ -2,7 +2,7 @@
 asm = "9.7"
 checkstyle = "10.3.4"
 errorprone = "2.28.0"
-errorpronePlugin = "4.0.0"
+errorpronePlugin = "4.0.1"
 errorproneSlf4j = "0.1.25"
 googleJavaFormat = "1.22.0"
 immutables = "2.10.1"
