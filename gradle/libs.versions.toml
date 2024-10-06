@@ -1,5 +1,5 @@
 [versions]
-asm = "9.7"
+asm = "9.7.1"
 checkstyle = "10.3.4"
 errorprone = "2.31.0"
 errorpronePlugin = "4.0.1"
