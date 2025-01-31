@@ -1,3 +1,5 @@
+**THIS REPOSITORY IS UNMAINTAINED AND HAS BEEN ARCHIVED ON JAN 31, 2025**
+
 # Annotation Stripper
 
 [![Group Discussion](https://img.shields.io/badge/Discussion-Groups-blue.svg?color=3d4db3&logo=google&style=for-the-badge&logoColor=white)](https://groups.google.com/g/projectnessie)
